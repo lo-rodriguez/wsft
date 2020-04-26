@@ -4,12 +4,12 @@
 **1. Clone the application**
 
 ```bash
-https://github.com/givanthak/spring-boot-rest-api-tutorial.git
+ https://github.com/lo-rodriguez/wsft.git
 ```
 
 **2. Create Mysql or MariaDB database**
 ```bash
-create database user_database
+create database wsft
 ```
 
 **3. Change mysql username and password as per your installation**
