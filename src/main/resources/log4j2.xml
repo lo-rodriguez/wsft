@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG" monitorInterval="50">
+ 
+    <!-- Logging Properties -->
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p-%c{1} %m%n</Property>
+        <Property name="APP_LOG_ROOT">${LOCATION_LOG}/wslog</Property>
+		<Property name="MAX_ROLLER">10</Property>
+		<Property name="MAX_BASE_SIZE">7000KB</Property>
+		<Property name="BASE_NAME_LOG">wsfamilytracking</Property>
+    </Properties>
+     
+    <Appenders>
+     
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+       
+         
+        <RollingFile name="infoLog" fileName="${APP_LOG_ROOT}/${BASE_NAME_LOG}-info.log"
+            filePattern="${APP_LOG_ROOT}/${BASE_NAME_LOG}-info-%d{yyyy-MM-dd}-%i.log" >
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${MAX_BASE_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${MAX_ROLLER}"/>
+        </RollingFile>
+         
+        <RollingFile name="errorLog" fileName="${APP_LOG_ROOT}/${BASE_NAME_LOG}-error.log"
+            filePattern="${APP_LOG_ROOT}/${BASE_NAME_LOG}-error-%d{yyyy-MM-dd}-%i.log" >
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${MAX_BASE_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${MAX_ROLLER}"/>
+        </RollingFile>
+         
+   
+         
+        <RollingFile name="traceLog" fileName="${APP_LOG_ROOT}/${BASE_NAME_LOG}-trace.log"
+            filePattern="${APP_LOG_ROOT}/${BASE_NAME_LOG}-trace-%d{yyyy-MM-dd}-%i.log" >
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${MAX_BASE_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+        
+        <RollingFile name="debugLog" fileName="${APP_LOG_ROOT}/${BASE_NAME_LOG}-debug.log"
+            filePattern="${APP_LOG_ROOT}/TASRAWebService1-debug-%d{yyyy-MM-dd}-%i.log">
+            <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${MAX_BASE_SIZE}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${MAX_ROLLER}" fileIndex="min" />
+        </RollingFile>
+         
+    </Appenders>
+ 
+    <Loggers>
+ 
+	
+       
+	   <!--  PRODUCCION-->
+	   
+        <Logger name="net.ronasoft.wsfamilytracking" additivity="false" level="INFO">
+            <AppenderRef ref="debugLog" />
+			<AppenderRef ref="traceLog" />
+            <AppenderRef ref="infoLog"  />
+            <AppenderRef ref="errorLog" />
+            <AppenderRef ref="Console"  />
+        </Logger>
+                
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="debug"/>
+        </Root>
+ 
+    </Loggers>
+ 
+</Configuration>
